@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"reflect"
+	"strings"
 )
 
 
@@ -48,7 +49,6 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
 	}
-	fmt.Println(in)
 	result = f.Call(in)
 	return
 }
@@ -63,13 +63,22 @@ func versionFunc()  {
 }
 
 func pushCommit(comment string, params ... string)  {
-	fmt.Println(params)
 	var remote = ""
 	var branch = ""
+	for i := range params {
+		if strings.Contains(params[i], "--remote") {
+			pars := strings.Split(params[i], "=")
+			remote = pars[1]
+		}
 
-	flag.StringVar(&remote, "origin", "", "--remote")
-	flag.StringVar(&branch, "branch", "", "--branch")
-	flag.Parse()
+		if strings.Contains(params[i], "--branch") {
+			pars := strings.Split(params[i], "=")
+			branch = pars[1]
+		}
+	}
+
+	fmt.Println(remote)
+	fmt.Println(branch)
 
 	fmt.Printf("remote:%s\n", remote)
 	fmt.Printf("branch:%s\n", branch)
