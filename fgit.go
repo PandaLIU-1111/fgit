@@ -42,7 +42,6 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 	f := reflect.ValueOf(m[name])
 
 	in := make([]reflect.Value, len(params))
-	fmt.Println(in)
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
 	}
@@ -80,7 +79,6 @@ func pushCommit(comment string, params ... string)  {
 	runGitCommand("add", ".")
 	runGitCommand("commit", "-m", comment)
 
-	fmt.Println(pushCommand)
 	runGitCommand(pushCommand...)
 }
 
