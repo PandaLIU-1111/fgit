@@ -1,10 +1,12 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
 	"os/exec"
+	"reflect"
 )
 
 
@@ -13,43 +15,62 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 
-	var version = "0.0.1-bate"
-
 	if len(args) == 0 {
-		runGitCommand()
 		return
 	}
 
-	if args[0] == "version" {
-		fmt.Printf("fgit version %s\n", version)
-		runGitCommand("--version")
-		return
+	funcs := map[string]interface{} {
+		"pushCommit": pushCommit,
+		"version": versionFunc,
 	}
 
-	var innerComand = []string{"pushCommit"}
-		pushCommit(args[1])
-	if inArray(args[0], innerComand) {
-		
+	if inArray(args[0], funcs) {
+		funcArgs := args[1:]
+		call(funcs, args[0], funcArgs...)
 	} else {
 		_, _ = runGitCommand(args...)
 	}
 	return
 }
 
+func call(m map[string]interface{}, name string, params ... string) (result []reflect.Value, err error) {
+	f := reflect.ValueOf(m[name])
+	if len(params) != f.Type().NumIn() {
+		err = errors.New("The number of params is not adapted.")
+		return
+	}
+
+	in := make([]reflect.Value, len(params))
+	for k, param := range params {
+		in[k] = reflect.ValueOf(param)
+	}
+	result = f.Call(in)
+	return
+}
+
+func getVersion() string {
+	return "0.0.1-bate"
+}
+
+func versionFunc()  {
+	fmt.Printf("fgit version %s\n", getVersion())
+	runGitCommand("--version")
+}
+
 func pushCommit(comment string)  {
+	var remote = ""
+	var branch = ""
+
+	flag.StringVar(&remote, "origin", "input your remote", "--remote")
+	flag.StringVar(&branch, "branch", "input your branch", "--branch")
+	flag.Parse()
+
+	fmt.Printf("remote:%s\n", remote)
+	fmt.Printf("branch:%s\n", branch)
 	runGitCommand("pull")
 	runGitCommand("add", ".")
 	runGitCommand("commit", "-m", comment)
 	runGitCommand("push")
-}
-
-func inArray(need interface{}, needArr []string) bool {
-	for _,v := range needArr{
-		if need == v{
-			return true
-		}
-	}
-	return false
 }
 
 // 获取当前路径
@@ -73,4 +94,14 @@ func runGitCommand(arg ...string) (string, error) {
 	fmt.Println(string(msg))
 	// 报错时 exit status 1
 	return string(msg), err
+}
+
+
+func inArray(need interface{}, needArr map[string]interface{}) bool {
+	for k,_ := range needArr{
+		if need == k{
+			return true
+		}
+	}
+	return false
 }
