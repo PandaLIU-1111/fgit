@@ -76,14 +76,12 @@ func pushCommit(comment string, params ... string)  {
 		}
 	}
 
-	fmt.Println(pushCommand)
-
 	runGitCommand("pull")
 	runGitCommand("add", ".")
 	runGitCommand("commit", "-m", comment)
 
 	fmt.Println(pushCommand)
-	//runGitCommand(pushCommand...)
+	runGitCommand(pushCommand...)
 }
 
 // 获取当前路径
