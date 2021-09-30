@@ -61,8 +61,8 @@ func pushCommit(comment string)  {
 	var remote = ""
 	var branch = ""
 
-	flag.StringVar(&remote, "origin", "input your remote", "--remote")
-	flag.StringVar(&branch, "branch", "input your branch", "--branch")
+	flag.StringVar(&remote, "origin", "", "--remote")
+	flag.StringVar(&branch, "branch", "", "--branch")
 	flag.Parse()
 
 	fmt.Printf("remote:%s\n", remote)
