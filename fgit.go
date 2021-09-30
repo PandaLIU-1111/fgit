@@ -27,6 +27,7 @@ func main() {
 
 	if inArray(args[0], funcs) {
 		funcArgs := args[1:]
+		fmt.Println(funcArgs)
 		_, err := call(funcs, args[0], funcArgs...)
 		if err != nil {
 			fmt.Println(err)
@@ -62,17 +63,18 @@ func versionFunc()  {
 	runGitCommand("--version")
 }
 
-func pushCommit(comment string, params ... string)  {
+func pushCommit(comment string, params string,params2 ... string)  {
+	//var comment = params[0]
 	var remote = ""
 	var branch = ""
-	for i := range params {
-		if strings.Contains(params[i], "--remote") {
-			pars := strings.Split(params[i], "=")
+	for i := range params2 {
+		if strings.Contains(params2[i], "--remote") {
+			pars := strings.Split(params2[i], "=")
 			remote = pars[1]
 		}
 
-		if strings.Contains(params[i], "--branch") {
-			pars := strings.Split(params[i], "=")
+		if strings.Contains(params2[i], "--branch") {
+			pars := strings.Split(params2[i], "=")
 			branch = pars[1]
 		}
 	}
