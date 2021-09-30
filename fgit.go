@@ -83,7 +83,10 @@ func pushCommit(comment string, params ... string)  {
 	runGitCommand("pull")
 	runGitCommand("add", ".")
 	runGitCommand("commit", "-m", comment)
-	runGitCommand("push")
+	var pushCommand = []string{}
+	pushCommand = append(pushCommand, "push")
+	fmt.Println(pushCommand)
+	//runGitCommand(pushCommand...)
 }
 
 // 获取当前路径
