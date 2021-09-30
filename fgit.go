@@ -47,6 +47,7 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 	}
 
 	in := make([]reflect.Value, len(params))
+	fmt.Println(in)
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
 	}
@@ -63,18 +64,18 @@ func versionFunc()  {
 	runGitCommand("--version")
 }
 
-func pushCommit(comment string, params string,params2 ... string)  {
+func pushCommit(comment string, params ... string)  {
 	//var comment = params[0]
 	var remote = ""
 	var branch = ""
-	for i := range params2 {
-		if strings.Contains(params2[i], "--remote") {
-			pars := strings.Split(params2[i], "=")
+	for i := range params {
+		if strings.Contains(params[i], "--remote") {
+			pars := strings.Split(params[i], "=")
 			remote = pars[1]
 		}
 
-		if strings.Contains(params2[i], "--branch") {
-			pars := strings.Split(params2[i], "=")
+		if strings.Contains(params[i], "--branch") {
+			pars := strings.Split(params[i], "=")
 			branch = pars[1]
 		}
 	}
