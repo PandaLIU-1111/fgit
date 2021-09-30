@@ -20,9 +20,9 @@ func main() {
 	}
 
 	funcs := map[string]interface{} {
-		"pushCommit": pushCommit,
-		"version": versionFunc,
-		"cleanCheckOut": cleanCheckOut,
+		"pushCommit":    pushCommit,
+		"version":       versionFunc,
+		"cleanCheckout": cleanCheckout,
 	}
 
 	if inArray(args[0], funcs) {
@@ -54,7 +54,7 @@ func getVersion() string {
 	return "0.0.1-bate"
 }
 
-func cleanCheckOut(branch string)  {
+func cleanCheckout(branch string)  {
 	runGitCommand("reset", "HEAD", "--hard")
 	runGitCommand("checkout", branch)
 }
