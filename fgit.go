@@ -26,7 +26,11 @@ func main() {
 
 	if inArray(args[0], funcs) {
 		funcArgs := args[1:]
-		call(funcs, args[0], funcArgs...)
+		_, err := call(funcs, args[0], funcArgs...)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	} else {
 		_, _ = runGitCommand(args...)
 	}
@@ -57,7 +61,7 @@ func versionFunc()  {
 	runGitCommand("--version")
 }
 
-func pushCommit(comment string)  {
+func pushCommit(comment string, params ... string)  {
 	var remote = ""
 	var branch = ""
 
