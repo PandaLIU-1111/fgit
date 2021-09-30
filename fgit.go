@@ -23,6 +23,7 @@ func main() {
 		"pushCommit":    pushCommit,
 		"version":       versionFunc,
 		"cleanCheckout": cleanCheckout,
+		"saveCheckout": saveCheckout,
 	}
 
 	if inArray(args[0], funcs) {
@@ -52,6 +53,11 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 
 func getVersion() string {
 	return "0.0.1-bate"
+}
+
+func saveCheckout(branch string)  {
+	runGitCommand("stash")
+	runGitCommand("checkout", branch)
 }
 
 func cleanCheckout(branch string)  {
