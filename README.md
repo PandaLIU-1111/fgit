@@ -6,3 +6,5 @@
 
 - version // 获取版本信息
 - pushCommit "comment" // 代码上传，省略 `git add .`, `git commmit -m ""`,`git push` 三个命令
+- cleanCheckout <<branch>> // 清理干净当前工作区，并且切换分支
+- saveCheckout <<branch>> // 保存当前工作区修改，并且切换分支
