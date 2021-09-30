@@ -7,12 +7,22 @@ import (
 	"os/exec"
 )
 
+
+
 func main() {
 	flag.Parse()
 	args := flag.Args()
 
+	var version = "0.0.1-bate"
+
 	if len(args) == 0 {
 		runGitCommand()
+		return
+	}
+
+	if args[0] == "version" {
+		fmt.Printf("fgit version %s\n", version)
+		runGitCommand("--version")
 		return
 	}
 
@@ -23,6 +33,7 @@ func main() {
 	} else {
 		_, _ = runGitCommand(args...)
 	}
+	return
 }
 
 func pushCommit(comment string)  {
