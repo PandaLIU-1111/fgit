@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -41,10 +40,6 @@ func main() {
 
 func call(m map[string]interface{}, name string, params ... string) (result []reflect.Value, err error) {
 	f := reflect.ValueOf(m[name])
-	if len(params) != f.Type().NumIn() {
-		err = errors.New("The number of params is not adapted.")
-		return
-	}
 
 	in := make([]reflect.Value, len(params))
 	fmt.Println(in)
