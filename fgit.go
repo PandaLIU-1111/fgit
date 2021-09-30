@@ -48,6 +48,7 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 	for k, param := range params {
 		in[k] = reflect.ValueOf(param)
 	}
+	fmt.Println(in)
 	result = f.Call(in)
 	return
 }
@@ -62,6 +63,7 @@ func versionFunc()  {
 }
 
 func pushCommit(comment string, params ... string)  {
+	fmt.Println(params)
 	var remote = ""
 	var branch = ""
 
