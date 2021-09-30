@@ -22,6 +22,7 @@ func main() {
 	funcs := map[string]interface{} {
 		"pushCommit": pushCommit,
 		"version": versionFunc,
+		"cleanCheckOut": cleanCheckOut,
 	}
 
 	if inArray(args[0], funcs) {
@@ -51,6 +52,11 @@ func call(m map[string]interface{}, name string, params ... string) (result []re
 
 func getVersion() string {
 	return "0.0.1-bate"
+}
+
+func cleanCheckOut(branch string)  {
+	runGitCommand("reset", "HEAD", "--hard")
+	runGitCommand("checkout", branch)
 }
 
 func versionFunc()  {
@@ -92,6 +98,7 @@ func getCurrentPath() string {
 }
 
 
+// 运行 git 命令
 func runGitCommand(arg ...string) (string, error) {
 
 	cmd := exec.Command("git", arg...)
