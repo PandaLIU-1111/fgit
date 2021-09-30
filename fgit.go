@@ -61,30 +61,27 @@ func versionFunc()  {
 
 func pushCommit(comment string, params ... string)  {
 	//var comment = params[0]
-	var remote = ""
-	var branch = ""
+	var pushCommand = []string{}
+	pushCommand = append(pushCommand, "push")
+	pushCommand = append(pushCommand, "origin")
 	for i := range params {
 		if strings.Contains(params[i], "--remote") {
 			pars := strings.Split(params[i], "=")
-			remote = pars[1]
+			pushCommand[1] = pars[1]
 		}
 
 		if strings.Contains(params[i], "--branch") {
 			pars := strings.Split(params[i], "=")
-			branch = pars[1]
+			pushCommand = append(pushCommand, pars[1])
 		}
 	}
 
-	fmt.Println(remote)
-	fmt.Println(branch)
+	fmt.Println(pushCommand)
 
-	fmt.Printf("remote:%s\n", remote)
-	fmt.Printf("branch:%s\n", branch)
 	runGitCommand("pull")
 	runGitCommand("add", ".")
 	runGitCommand("commit", "-m", comment)
-	var pushCommand = []string{}
-	pushCommand = append(pushCommand, "push")
+
 	fmt.Println(pushCommand)
 	//runGitCommand(pushCommand...)
 }
